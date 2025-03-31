@@ -34,7 +34,7 @@ async def get_todos():
         res = await client.get(f"{BASE_URL}/todos")
         if res.status_code == 200:
             return res.json()
-        return JSONResponse(content={"error": "Unable to fetch todos"}, status_code=res.status_code)
+        return JSONResponse(content={"error": "Unable to fetch todos"}, status_code=404)
 
 
 @api.get("/todos/{todo_id}", response_model=Todo)
@@ -54,8 +54,8 @@ async def create_todo(new_todo: Todo):
             return res.json()
         return JSONResponse(
             content={
-                "error": "Failed to create todo. Note: my-json-server is read-only."},
-            status_code=res.status_code
+                "error": "Failed to create todo"},
+            status_code=400
         )
 
 
@@ -67,8 +67,8 @@ async def update_todo(todo_id: int, updated_todo: Todo):
             return res.json()
         return JSONResponse(
             content={
-                "error": "Failed to update todo. Note: my-json-server is read-only."},
-            status_code=res.status_code
+                "error": "Failed to update todo."},
+            status_code=403
         )
 
 
@@ -80,8 +80,8 @@ async def delete_todo(todo_id: int):
             return {"detail": "Todo deleted"}
         return JSONResponse(
             content={
-                "error": "Failed to delete todo. Note: my-json-server is read-only."},
-            status_code=res.status_code
+                "error": "Failed to delete todo."},
+            status_code=403
         )
 
 if __name__ == "__main__":
