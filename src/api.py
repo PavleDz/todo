@@ -46,7 +46,7 @@ async def get_todo(todo_id: int):
         return JSONResponse(content={"error": "Todo not found"}, status_code=404)
 
 
-@api.post("/todos", status_code=201)
+@api.post("/todos")
 async def create_todo(new_todo: Todo):
     async with httpx.AsyncClient() as client:
         res = await client.post(f"{BASE_URL}/todos", json=new_todo.dict())
