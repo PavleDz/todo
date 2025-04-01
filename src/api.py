@@ -28,7 +28,7 @@ class Todo(BaseModel):
     text: str
 
 
-@api.get("/todos", response_model=List[Todo])
+@api.get("/todos")
 async def get_todos():
     async with httpx.AsyncClient() as client:
         res = await client.get(f"{BASE_URL}/todos")
@@ -37,7 +37,7 @@ async def get_todos():
         return JSONResponse(content={"error": "Unable to fetch todos"}, status_code=404)
 
 
-@api.get("/todos/{todo_id}", response_model=Todo)
+@api.get("/todos/{todo_id}")
 async def get_todo(todo_id: int):
     async with httpx.AsyncClient() as client:
         res = await client.get(f"{BASE_URL}/todos/{todo_id}")
@@ -46,7 +46,7 @@ async def get_todo(todo_id: int):
         return JSONResponse(content={"error": "Todo not found"}, status_code=404)
 
 
-@api.post("/todos", response_model=Todo, status_code=201)
+@api.post("/todos", status_code=201)
 async def create_todo(new_todo: Todo):
     async with httpx.AsyncClient() as client:
         res = await client.post(f"{BASE_URL}/todos", json=new_todo.dict())
@@ -59,7 +59,7 @@ async def create_todo(new_todo: Todo):
         )
 
 
-@api.put("/todos/{todo_id}", response_model=Todo)
+@api.put("/todos/{todo_id}")
 async def update_todo(todo_id: int, updated_todo: Todo):
     async with httpx.AsyncClient() as client:
         res = await client.put(f"{BASE_URL}/todos/{todo_id}", json=updated_todo.dict())
